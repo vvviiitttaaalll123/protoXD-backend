@@ -1,34 +1,44 @@
 from app import app
 import requests
 from app.constants.constants import *
-from flask import request
+from flask import request, jsonify
 
 
-@app.route("/get_seasonal_updates", methods=['GET'])
+@app.route("/get_seasonal_updates/", methods=['GET'])
 def get_seasonal_updates():
     req = requests.get(GET_SEASONAL_UPDATES)
     return req.json()
 
 
-@app.route("/get_recently_updated", methods=['GET'])
+@app.route("/get_recently_updated/", methods=['GET'])
 def get_recently_updated():
     req = requests.get(GET_RECENTLY_UPDATED)
-    return req.json()
+    response_data = req.json()
+    result = {"data" : []}
+    seen_manga = set()
+    for data in response_data["data"]:
+        temp = {"attributes": data["attributes"], "id": data["id"], "relationships": data["relationships"][:]}
+        for manga in data["relationships"]:
+            if manga["type"] == "manga" and manga["id"] not in seen_manga:
+                seen_manga.add(manga["id"])
+                result["data"].append(temp)
+
+    return jsonify(result)
 
 
-@app.route("/get_recently_added", methods=['GET'])
+@app.route("/get_recently_added/", methods=['GET'])
 def get_recently_added():
     req = requests.get(GET_RECENTLY_ADDED)
     return req.json()
 
 
-@app.route("/get_cover", methods=['GET'])
+@app.route("/get_cover/", methods=['GET'])
 def get_cover():
     req = requests.get(GET_COVER_URL(request.args.get('manga_id')))
     return req.json()
 
 
-@app.route("/get_manga_details", methods=['POST'])
+@app.route("/get_manga_details/", methods=['POST'])
 def get_manga_details_url():
     data = request.json
     url = MANGA_DETAILS_URL_BUILD
@@ -40,7 +50,7 @@ def get_manga_details_url():
     return req.json()
 
 
-@app.route("/get_image_url", methods=['GET'])
+@app.route("/get_image_url/", methods=['GET'])
 def get_image_url():
     manga_id = request.args.get('manga_id')
     image_url = request.args.get('image_url')
@@ -60,7 +70,7 @@ def get_particular_manga(manga_id: str, manga_title: str):
     return req.json()
 
 
-@app.route("/get_chapters", methods=['GET'])
+@app.route("/get_chapters/", methods=['GET'])
 def get_chapters():
     manga_id = request.args.get("manga_id")
     limit = int(request.args.get('limit', default=96))
@@ -70,21 +80,21 @@ def get_chapters():
     return req.json()
 
 
-@app.route("/get_chapter_images", methods=['GET'])
+@app.route("/get_chapter_images/", methods=['GET'])
 def get_chapter_images():
     chapter_id = request.args.get('chapter_id')
     req = requests.get(GET_CHAPTER_IMAGES(chapter_id))
     return req.content
 
 
-@app.route("/get_chapter_detail", methods=['GET'])
+@app.route("/get_chapter_detail/", methods=['GET'])
 def get_chapter_detail():
     chapter_id = request.args.get('chapter_id')
     req = requests.get(GET_CHAPTER_DETAIL(chapter_id))
     return req.json()
 
 
-@app.route("/search", methods=['GET'])
+@app.route("/search/", methods=['GET'])
 def search_url():
     title = request.args.get('title')
     print(SEARCH_URL(title))
