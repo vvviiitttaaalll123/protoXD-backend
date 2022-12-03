@@ -49,7 +49,7 @@ def get_image_url():
     return req.json()
 
 
-@app.route("/manga/<manga_id>/<manga_title>", methods=['GET'])
+@app.route("/manga/<manga_id>/<manga_title>/", methods=['GET'])
 def get_particular_manga(manga_id: str, manga_title: str):
     print(manga_title)
     req = requests.get(PERTICULAR_MANGA(manga_id))
