@@ -35,7 +35,7 @@ def GET_CHAPTERS(manga_id: str, limit: int = 96, offset: int = 0) -> str:
 
 
 def GET_CHAPTER_IMAGES(chapter_id: str) -> str:
-    return f'{API_BASE_URL}/at-home/server/{chapter_id}?forcePort443=false'
+    return f'{API_BASE_URL}at-home/server/{chapter_id}?forcePort443=false'
 
 
 def GET_CHAPTER_DETAIL(chapter_id: str) -> str:
