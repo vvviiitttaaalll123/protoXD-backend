@@ -1,18 +1,19 @@
-import pprint
-
 from app import app
 import requests
 from app.constants.constants import *
 from flask import request, jsonify
+from app import cache
 
 
 @app.route("/get_seasonal_updates/", methods=['GET'])
+@cache.cached()
 def get_seasonal_updates():
     req = requests.get(GET_SEASONAL_UPDATES)
     return req.json()
 
 
 @app.route("/get_recently_updated/", methods=['GET'])
+@cache.cached()
 def get_recently_updated():
     req = requests.get(GET_RECENTLY_UPDATED)
     response_data = req.json()
@@ -26,7 +27,7 @@ def get_recently_updated():
         for manga in data["relationships"]:
             if manga["type"] == "manga" and manga["id"] not in seen_manga:
                 manga_details = requests.get(PERTICULAR_MANGA(manga_id=manga["id"]))
-                manga_details_dict =manga_details.json()
+                manga_details_dict = manga_details.json()
                 temp["attributes"]["title"] = manga_details_dict["data"]["attributes"]["title"][
                     list(manga_details_dict['data']["attributes"]["title"].keys())[0]
                 ]
@@ -74,6 +75,7 @@ def get_image_url():
 
 
 @app.route("/manga/<manga_id>/<manga_title>/", methods=['GET'])
+@cache.cached()
 def get_particular_manga(manga_id: str, manga_title: str):
     print(manga_title)
     req = requests.get(PERTICULAR_MANGA(manga_id))
@@ -81,6 +83,7 @@ def get_particular_manga(manga_id: str, manga_title: str):
 
 
 @app.route("/get_chapters", methods=['GET'])
+@cache.cached()
 def get_chapters():
     manga_id = request.args.get("manga_id")
     limit = int(request.args.get('limit', default=96))
@@ -91,6 +94,7 @@ def get_chapters():
 
 
 @app.route("/get_chapter_images", methods=['GET'])
+@cache.cached()
 def get_chapter_images():
     chapter_id = request.args.get('chapter_id')
     req = requests.get(GET_CHAPTER_IMAGES(chapter_id))
@@ -98,6 +102,7 @@ def get_chapter_images():
 
 
 @app.route("/get_chapter_detail", methods=['GET'])
+@cache.cached()
 def get_chapter_detail():
     chapter_id = request.args.get('chapter_id')
     req = requests.get(GET_CHAPTER_DETAIL(chapter_id))
@@ -105,6 +110,7 @@ def get_chapter_detail():
 
 
 @app.route("/search", methods=['GET'])
+@cache.cached()
 def search_url():
     title = request.args.get('title')
     print(SEARCH_URL(title))
