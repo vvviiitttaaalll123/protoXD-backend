@@ -44,4 +44,4 @@ def GET_CHAPTER_DETAIL(chapter_id: str) -> str:
 
 def SEARCH_URL(title: str) -> str:
     return f'{API_BASE_URL}manga?title={title}&limit=5&contentRating[]=safe&contentRating[]=suggestive&contentRating[' \
-           f']=erotica&includes[]=cover_art&order[relevance]=desc '
+           f']=erotica&includes[]=cover_art&order[relevance]=desc'

@@ -87,5 +87,6 @@ def get_chapter_detail():
 @app.route("/search", methods=['GET'])
 def search_url():
     title = request.args.get('title')
+    print(SEARCH_URL(title))
     req = requests.get(SEARCH_URL(title))
     return req.json()
