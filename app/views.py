@@ -63,8 +63,8 @@ def get_particular_manga(manga_id: str, manga_title: str):
 @app.route("/get_chapters", methods=['GET'])
 def get_chapters():
     manga_id = request.args.get("manga_id")
-    limit = int(request.args.get('limit'))
-    offset = int(request.args.get('offset'))
+    limit = int(request.args.get('limit', default=96))
+    offset = int(request.args.get('offset', default=0))
 
     req = requests.get(GET_CHAPTERS(manga_id, limit, offset))
     return req.json()
@@ -74,7 +74,7 @@ def get_chapters():
 def get_chapter_images():
     chapter_id = request.args.get('chapter_id')
     req = requests.get(GET_CHAPTER_IMAGES(chapter_id))
-    return req
+    return req.content
 
 
 @app.route("/get_chapter_detail", methods=['GET'])

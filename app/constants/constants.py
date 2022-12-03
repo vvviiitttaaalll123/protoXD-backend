@@ -29,8 +29,8 @@ def PERTICULAR_MANGA(manga_id: str) -> str:
 
 
 def GET_CHAPTERS(manga_id: str, limit: int = 96, offset: int = 0) -> str:
-    return f'{API_BASE_URL}manga/{manga_id}/feed?translatedLanguage[]=en&limit={limit}&includes[]=scanlation_group' \
-           f'&includes[]=user&order[volume]=desc&order[chapter]=desc&offset={offset}&contentRating[' \
+    return f'{API_BASE_URL}manga/{manga_id}/feed?translatedLanguage[]=en&limit={str(limit)}&includes[]=scanlation_group' \
+           f'&includes[]=user&order[volume]=desc&order[chapter]=desc&offset={str(offset)}&contentRating[' \
            f']=safe&contentRating[]=suggestive&contentRating[]=erotica&contentRating[]=pornographic'
 
 
