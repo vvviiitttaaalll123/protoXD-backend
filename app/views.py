@@ -50,7 +50,7 @@ def get_manga_details_url():
     return req.json()
 
 
-@app.route("/get_image_url/", methods=['GET'])
+@app.route("/get_image_url", methods=['GET'])
 def get_image_url():
     manga_id = request.args.get('manga_id')
     image_url = request.args.get('image_url')
@@ -70,7 +70,7 @@ def get_particular_manga(manga_id: str, manga_title: str):
     return req.json()
 
 
-@app.route("/get_chapters/", methods=['GET'])
+@app.route("/get_chapters", methods=['GET'])
 def get_chapters():
     manga_id = request.args.get("manga_id")
     limit = int(request.args.get('limit', default=96))
@@ -80,21 +80,21 @@ def get_chapters():
     return req.json()
 
 
-@app.route("/get_chapter_images/", methods=['GET'])
+@app.route("/get_chapter_images", methods=['GET'])
 def get_chapter_images():
     chapter_id = request.args.get('chapter_id')
     req = requests.get(GET_CHAPTER_IMAGES(chapter_id))
     return req.content
 
 
-@app.route("/get_chapter_detail/", methods=['GET'])
+@app.route("/get_chapter_detail", methods=['GET'])
 def get_chapter_detail():
     chapter_id = request.args.get('chapter_id')
     req = requests.get(GET_CHAPTER_DETAIL(chapter_id))
     return req.json()
 
 
-@app.route("/search/", methods=['GET'])
+@app.route("/search", methods=['GET'])
 def search_url():
     title = request.args.get('title')
     print(SEARCH_URL(title))
