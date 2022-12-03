@@ -32,7 +32,7 @@ def get_recently_updated():
                 ]
                 seen_manga.add(manga["id"])
                 result["data"].append(temp)
-
+    result["data"] = result["data"][:24]
     return jsonify(result)
 
 
