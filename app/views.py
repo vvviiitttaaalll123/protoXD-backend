@@ -110,7 +110,6 @@ def get_chapter_detail():
 
 
 @app.route("/search", methods=['GET'])
-@cache.cached()
 def search_url():
     title = request.args.get('title')
     print(SEARCH_URL(title))
