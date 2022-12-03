@@ -3,7 +3,7 @@ ORG_BASE_URL = 'https://mangadex.org/'
 
 GET_SEASONAL_UPDATES = f'{API_BASE_URL}list/4be9338a-3402-4f98-b467-43fb56663927?includes[]=user'
 GET_RECENTLY_UPDATED = f'{API_BASE_URL}chapter?includes[]=scanlation_group&translatedLanguage[]=en&contentRating[' \
-                       f']=safe&contentRating[]=suggestive&contentRating[]=erotica&order[readableAt]=desc&limit=74'
+                       f']=safe&contentRating[]=suggestive&contentRating[]=erotica&order[readableAt]=desc&limit=96'
 
 GET_RECENTLY_ADDED = f'{API_BASE_URL}manga?limit=30&contentRating[]=safe&contentRating[]=suggestive&' \
                      'contentRating[]=erotica&order[createdAt]=desc&includes[]=cover_art'

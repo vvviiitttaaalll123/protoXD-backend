@@ -1,3 +1,5 @@
+import pprint
+
 from app import app
 import requests
 from app.constants.constants import *
@@ -14,12 +16,20 @@ def get_seasonal_updates():
 def get_recently_updated():
     req = requests.get(GET_RECENTLY_UPDATED)
     response_data = req.json()
-    result = {"data" : []}
+    result = {"data": []}
     seen_manga = set()
     for data in response_data["data"]:
-        temp = {"attributes": data["attributes"], "id": data["id"], "relationships": data["relationships"][:]}
+        temp = {"attributes": data["attributes"],
+                "id": data["id"],
+                "relationships": data["relationships"][:]
+                }
         for manga in data["relationships"]:
             if manga["type"] == "manga" and manga["id"] not in seen_manga:
+                manga_details = requests.get(PERTICULAR_MANGA(manga_id=manga["id"]))
+                manga_details_dict =manga_details.json()
+                temp["attributes"]["title"] = manga_details_dict["data"]["attributes"]["title"][
+                    list(manga_details_dict['data']["attributes"]["title"].keys())[0]
+                ]
                 seen_manga.add(manga["id"])
                 result["data"].append(temp)
 
