@@ -21,7 +21,7 @@ MANGA_DETAILS_URL_BUILD = f'{API_BASE_URL}manga?includes[]=cover_art&order[follo
 
 
 def IMAGE_URL(manga_id: str, image_url: str, bit: str = ".256.jpg") -> str:
-    return f'{ORG_BASE_URL}covers/${manga_id}/${image_url}${bit}'
+    return f'{ORG_BASE_URL}covers/{manga_id}/{image_url}{bit}'
 
 
 def PERTICULAR_MANGA(manga_id: str) -> str:

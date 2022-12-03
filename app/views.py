@@ -45,8 +45,12 @@ def get_image_url():
     manga_id = request.args.get('manga_id')
     image_url = request.args.get('image_url')
     bit = request.args.get('bit', default=".256.jpg")
+    print(IMAGE_URL(manga_id, image_url, bit))
     req = requests.get(IMAGE_URL(manga_id, image_url, bit))
-    return req.json()
+    if req.status_code == 200:
+        return req.content
+    else:
+        return req.content
 
 
 @app.route("/manga/<manga_id>/<manga_title>/", methods=['GET'])
